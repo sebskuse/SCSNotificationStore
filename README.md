@@ -14,7 +14,7 @@ You sometimes may want to register for multiple notifications with the same call
 
 Can I remove an observer on an object before its deallocated?
 ------------------------
-SCSNotificationStore provides ```removeObserver:``` and ```removeObserversForName:``` methods which will either remove observers returned from the ```addObserver..``` methods or remove observers for a particular notification name.
+SCSNotificationStore provides ```removeObserver:``` and ```removeObserversForName:``` methods which will either remove observers returned from the ```addObserver...``` methods or remove observers for a particular notification name.
 
 Additionally, SCSNotificationStore supports subscripting, so you can always get listeners registered for a particular event name using: 
 ```objective-c
@@ -33,9 +33,35 @@ How do I use it?
 
 ```objective-c
 __weak __typeof(&*self)weakSelf = self;
-    [self.SCSNotificationStore addObserverForName:SCSExampleNotification usingBlock:^(NSNotification *notification) {
-        if ([notification.userInfo[@"something"] isEqualToString:@"someText"]) {
-            [weakSelf updateSomething];
-        }
-    }];
+[self.SCSNotificationStore addObserverForName:SCSExampleNotification usingBlock:^(NSNotification *notification) {
+    if ([notification.userInfo[@"something"] isEqualToString:@"someText"]) {
+        [weakSelf updateSomething];
+    }
+}];
+```
+
+Removing an observer:
+
+```objective-c
+__weak __typeof(&*self)weakSelf = self;
+id observer = [self.SCSNotificationStore addObserverForName:SCSExampleNotification usingBlock:^(NSNotification *notification) {
+    if ([notification.userInfo[@"something"] isEqualToString:@"someText"]) {
+        [weakSelf updateSomething];
+    }
+}];
+
+........
+
+[self.SCSNotificationStore removeObserver:observer];
+```
+
+Multiple notification names:
+
+```objective-c
+__weak __typeof(&*self)weakSelf = self;
+[self.SCSNotificationStore addObserversForNames:@[ SCSExampleNotification, SCSAnotherExampleNotification ] usingBlock:^(NSNotification *notification) {
+    if ([notification.userInfo[@"something"] isEqualToString:@"someText"]) {
+        [weakSelf updateSomething];
+    }
+}];
 ```
