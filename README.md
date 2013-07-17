@@ -4,7 +4,7 @@ SCSNotificationStore is a tiny library that provides a mechanism for any Objecti
 
 Why not just use the usingBlock method on NSNotificationCenter?
 ------------------------
-Registering for notifications using ```addObserverForName:object:queue:usingBlock:``` under ARC requires you to keep a reference to every notification registered so you can remove it later on. Not removing it before the listener is deallocated causes a leak. SCSNotificationStore automatically handles removing observers when the target gets deallocated.
+Registering for notifications using ```addObserverForName:object:queue:usingBlock:``` under ARC requires you to keep a reference to every notification registered so you can remove it later on. Not removing it before the listener is deallocated causes a leak. SCSNotificationStore automatically handles removing observers when the owning object gets deallocated.
 
 Okay, i'm interested. What else?
 ------------------------
@@ -65,3 +65,7 @@ __weak __typeof(&*self)weakSelf = self;
     }
 }];
 ```
+
+License
+------------------------
+SCSNotificationStore is available under the MIT license. See the LICENSE file for more info.
