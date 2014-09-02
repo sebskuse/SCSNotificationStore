@@ -65,20 +65,24 @@
 }
 
 - (void)removeObserver:(id)observer {
-    [[NSNotificationCenter defaultCenter] removeObserver:observer];
-    
-    for (NSString *observerName in self.observers) {
-        [self.observers[observerName] removeObject:observer];
+    @synchronized(self.observers) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        
+        for (NSString *observerName in self.observers) {
+            [self.observers[observerName] removeObject:observer];
+        }
     }
 }
 
 - (void)removeObserversForName:(NSString *)name {
-    if ([self.observers.allKeys containsObject:name]) {
-        [self.observers[name] enumerateObjectsUsingBlock:^(id observer, NSUInteger idx, BOOL *stop) {
-            [[NSNotificationCenter defaultCenter] removeObserver:observer];
-        }];
-        
-        [self.observers[name] removeAllObjects];
+    @synchronized(self.observers) {
+        if ([self.observers.allKeys containsObject:name]) {
+            [self.observers[name] enumerateObjectsUsingBlock:^(id observer, NSUInteger idx, BOOL *stop) {
+                [[NSNotificationCenter defaultCenter] removeObserver:observer];
+            }];
+            
+            [self.observers[name] removeAllObjects];
+        }
     }
 }
 
