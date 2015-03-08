@@ -5,6 +5,8 @@
 //  Copyright (c) 2013 Seb Skuse. All rights reserved.
 //
 
+@import Foundation;
+
 typedef void(^SCSNotificationStoreBlock)(NSNotification *notification);
 
 /**
